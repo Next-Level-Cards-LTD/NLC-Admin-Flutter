@@ -15,8 +15,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  String email = '';
-  String password = '';
+  String email = 'rickyjb816@gmail.com';
+  String password = 'PrincessJaffa96!';
   String userName = '';
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -55,10 +55,6 @@ class _LoginState extends State<Login> {
           ElevatedButton(onPressed: () => login(), child: Text("Login")),
 
           ErrorMessageText(notifier: SignInErrors.errorMessage),
-
-          Text(
-            Provider.of<Flavor>(context).toString(),
-          ),
         ],
       ),
     );
@@ -70,6 +66,8 @@ class _LoginState extends State<Login> {
     if(formState!.validate())
     {
       formState.save();
+      email = 'rickyjb816@gmail.com';
+      password = 'PrincessJaffa96!';
       Authentication().signInEmailAndPassword(email, password);
     }
   }

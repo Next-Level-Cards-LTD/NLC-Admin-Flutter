@@ -27,5 +27,4 @@ class Authentication {
   Future signOut() async {
     _auth.signOut();
   }
-
 }
