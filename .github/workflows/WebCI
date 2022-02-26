@@ -1,4 +1,4 @@
-name: CI
+name: Dart
 on:
     branches: [ master ]
   pull_request:
