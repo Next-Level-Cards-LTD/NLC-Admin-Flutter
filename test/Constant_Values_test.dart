@@ -5,9 +5,11 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:next_level_admin/Shared/Values/Constants_Strings.dart';
 
-import 'package:next_level_admin/main.dart';
-
-void main() {}
+void main() {
+  test("Checking App Name", () {
+    expect(AppTitle, "NLC Admin");
+  });
+}
