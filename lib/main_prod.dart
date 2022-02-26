@@ -58,10 +58,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp(name: "Next Level Cards Admin",
         options: FirebaseOptions(
-            appId: '1:539259005890:android:92ad409820786282df445b',
-            apiKey: 'AIzaSyCnkAWQh2k1mID_KaiquDPqTEYyYVQCl9Y',
-            messagingSenderId: '539259005890',
-            projectId: 'next-level-cards-admin-dev'));
+            appId: '1:830109132766:android:25b6c140bfe9031c255f4f',
+            apiKey: 'AIzaSyA0i-8yrHupLfgpR_ofh665J-i1UHK1qPM',
+            messagingSenderId: '830109132766',
+            projectId: 'nlc-admin-production'));
     return firebaseApp;
   }
 
