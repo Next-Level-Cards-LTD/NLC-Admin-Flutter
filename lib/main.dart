@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:next_level_admin/APIs/CardMarket/CardMarket_Orders.dart';
 import 'package:next_level_admin/APIs/Configs/CardMarket.dart';
 import 'package:next_level_admin/RoyalMail_CaC_CreateOrder.dart';
+import 'package:next_level_admin/Services/Authentication.dart';
 import 'package:next_level_admin/Services/Database.dart';
+import 'package:next_level_admin/Shared/Widgets/Widget_Loading.dart';
+import 'package:next_level_admin/Wrappers/AuthWrapper.dart';
 import 'package:next_level_admin/YuGiOh_GetData.dart';
 import 'package:next_level_admin/flavor.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart' as Auth;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,11 +79,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: FutureBuilder(
         future: _initializeFirebase(),
         builder: (context, snapshot) {
-              return Center(
-              child: HomeScreen()
-            );
-    }
-
+            if(snapshot.connectionState == ConnectionState.done)
+            {
+              return StreamProvider<Auth.User?>.value(
+              value: Authentication().currentUser,
+              initialData: null,
+              child: AuthWrapper());
+            }
+            return Loading(text: 'Starting Up!');
+          }
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => CardMarket_Orders().GetAccountData(), //CardMarket_Orders().GetAccountData(), //YuGiOh_GetData().GetData(),
@@ -87,61 +95,5 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ),
     );
-  }
-
-  Widget HomeScreen()
-  {
-    return StreamBuilder<CardMarket_API>(
-        stream: Database().CardMarketAPI,
-        builder: (context, snapshot) {
-
-          if(!snapshot.hasData)
-          {
-            return Row(); //Will be loading instead or something else once this gets fleshed out
-          }
-
-          return Row(
-            children: [
-                NavigationRail(selectedIndex: _selectedIndex,
-                  onDestinationSelected: (int index) {
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                  },
-                  labelType: NavigationRailLabelType.none,
-                  destinations: [
-                    NavigationRailDestination(
-                      icon: Icon(Icons.favorite_border),
-                      selectedIcon: Icon(Icons.favorite),
-                      label: Text('First',),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.bookmark_border),
-                      selectedIcon: Icon(Icons.book),
-                      label: Text('Second'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.star_border),
-                      selectedIcon: Icon(Icons.star),
-                      label: Text('Third'),
-                    ),
-                  ],
-                  extended: isSideBarExtended,
-                  trailing: Align(alignment: Alignment.bottomCenter, child: ElevatedButton(onPressed: () => ToggleSideBar(), child: Text("Toggle Side Bar"))),
-                  //minExtendedWidth: 10,
-                ),
-
-            ],
-          );
-        }
-    );
-  }
-
-  bool isSideBarExtended = false;
-
-  void ToggleSideBar() {
-    setState(() {
-      isSideBarExtended = !isSideBarExtended;
-    });
   }
 }
