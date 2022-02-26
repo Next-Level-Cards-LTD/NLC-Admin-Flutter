@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "830109132766",
+    "project_id": "nlc-admin-production",
+    "storage_bucket": "nlc-admin-production.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830109132766:android:25b6c140bfe9031c255f4f",
+        "android_client_info": {
+          "package_name": "com.NextLevelCards.next_level_admin.prod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830109132766-55s2ud5trt06sk1dp8v4vookktmau1c0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0i-8yrHupLfgpR_ofh665J-i1UHK1qPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830109132766-55s2ud5trt06sk1dp8v4vookktmau1c0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
