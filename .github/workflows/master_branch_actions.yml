@@ -57,4 +57,4 @@ jobs:
           
       #Build APK 
       - name: Build APK
-        run: flutter build apk --flavor prod -t lib/main_prod.dart --build-number=$BITRISE_BUILD_NUMBER
+        run: flutter build apk --flavor prod -t lib/main_prod.dart
