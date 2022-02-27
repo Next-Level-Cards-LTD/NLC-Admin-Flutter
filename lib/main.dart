@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
@@ -40,9 +41,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
 
-
-
-
   final String title;
 
   @override
@@ -50,14 +48,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  int _selectedIndex = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  int _selectedIndex = 0;
 
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp(name: "Next Level Cards Admin",
@@ -72,10 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-
-        title: Text(widget.title),
-      ),
       body: FutureBuilder(
         future: _initializeFirebase(),
         builder: (context, snapshot) {
@@ -88,11 +76,6 @@ class _MyHomePageState extends State<MyHomePage> {
             }
             return Loading(text: 'Starting Up!');
           }
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => CardMarket_Orders().GetAccountData(), //CardMarket_Orders().GetAccountData(), //YuGiOh_GetData().GetData(),
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ),
     );
   }

@@ -10,6 +10,6 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final Auth.User? currentUser = Provider.of<Auth.User?>(context);
 
-    return currentUser != null ? DashboardWrapper() : Login();
+    return Padding(padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0), child: currentUser != null ? DashboardWrapper() : Login());
   }
 }
