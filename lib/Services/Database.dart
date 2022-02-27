@@ -22,17 +22,11 @@ class Database
   Stream<CardMarket_API> get CardMarketAPI => APIConfigs.doc("CardMarket").snapshots().map(_cardMarketAPIFromSnapshots);
 
   //Characters from snapshot
-  CardMarket_API _cardMarketAPIFromSnapshots(DocumentSnapshot snapshot) {
-    print("CardMarket");
-    return CardMarket_API.setup(snapshot);
-  }
+  CardMarket_API _cardMarketAPIFromSnapshots(DocumentSnapshot snapshot) => CardMarket_API.setup(snapshot);
 
   Stream<RoyalMail_API> get RoyalMailAPI => APIConfigs.doc("RoyalMail").snapshots().map(_RoyalMailAPIFromSnapshots);
 
-  //Characters from snapshot
-  RoyalMail_API _RoyalMailAPIFromSnapshots(DocumentSnapshot snapshot) {
-    return RoyalMail_API.setup(snapshot);
-  }
+  RoyalMail_API _RoyalMailAPIFromSnapshots(DocumentSnapshot snapshot) => RoyalMail_API.setup(snapshot);
 
   Future getAPIData() async
   {
@@ -54,12 +48,9 @@ class Database
   }
 
   //get User doc stream
-  Stream<User> get user {
-    return userCollection.doc(uid).snapshots().map(_userFromSnapshot);
-  }
+  Stream<User> get user => userCollection.doc(uid).snapshots().map(_userFromSnapshot);
 
   //User from snapshot
-  User _userFromSnapshot(DocumentSnapshot snapshot) {
-    return User.documentSnapshot(snapshot);
-  }
+  User _userFromSnapshot(DocumentSnapshot snapshot) => User.documentSnapshot(snapshot);
+
 }
