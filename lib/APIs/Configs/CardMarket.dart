@@ -13,15 +13,22 @@ class CardMarket_API {
 
   CardMarket_API.setup(DocumentSnapshot data)
   {
+    print("CM Load");
     ConsumerKey = data["ConsumerKey"];
     ConsumerKeySecret= data["ConsumerKeySecret"];
     AccessToken = data["AccessToken"];
     TokenSecret = data["TokenSecret"];
+    hasData = true;
     instance = this;
   }
 
+  bool _hasData = false;
 
-  CardMarket_API_Data? data;
+  bool get hasData => _hasData;
+
+  set hasData(bool hasData) {
+    _hasData = hasData;
+  }
 
   String? _ConsumerKey;
 
@@ -53,31 +60,5 @@ class CardMarket_API {
 
   set TokenSecret(String? TokenSecret) {
     _TokenSecret = TokenSecret;
-  }
-}
-
-class CardMarket_API_Data
-{
-  String? ConsumerKey;
-  String? ConsumerKeySecret;
-  String? AccessToken;
-  String? TokenSecret;
-
-  CardMarket_API_Data(this.ConsumerKey, this.ConsumerKeySecret, this.AccessToken, this.TokenSecret);
-
-  CardMarket_API_Data.documentSnapshot(DocumentSnapshot data)
-  {
-    print(data["ConsumerKey"]);
-
-    ConsumerKey = data["ConsumerKey"];
-    ConsumerKeySecret= data["ConsumerKeySecret"];
-    AccessToken = data["AccessToken"];
-    TokenSecret = data["TokenSecret"];
-
-    //CardMarket_API.instance.setup("");
-
-    CardMarket_API.instance.ConsumerKey = data["ConsumerKey"];
-
-    CardMarket_API.instance = CardMarket_API.setup(data);
   }
 }

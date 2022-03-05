@@ -23,6 +23,9 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+
+    Authentication().signInEmailAndPassword(email, password);
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +68,7 @@ class _LoginState extends State<Login> {
     final formState = formKey.currentState;
     if(formState!.validate())
     {
-      formState.save();
+      //formState.save();
       email = 'rickyjb816@gmail.com';
       password = 'PrincessJaffa96!';
       Authentication().signInEmailAndPassword(email, password);
