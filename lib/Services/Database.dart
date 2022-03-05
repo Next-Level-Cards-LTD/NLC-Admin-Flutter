@@ -8,7 +8,7 @@ import 'package:next_level_admin/Data%20Models/User.dart';
 class Database
 {
   final String uid = Auth.FirebaseAuth.instance.currentUser!.uid;
-  
+
   final CollectionReference userCollection = FirebaseFirestore.instance.collection("Users");
   final CollectionReference YuGiOhCardDatabase = FirebaseFirestore.instance.collection("YuGiOh Cards");
   final CollectionReference APIConfigs = FirebaseFirestore.instance.collection("API Configs");
