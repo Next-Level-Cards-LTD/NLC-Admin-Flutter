@@ -12,6 +12,7 @@ class Database
   final CollectionReference userCollection = FirebaseFirestore.instance.collection("Users");
   final CollectionReference YuGiOhCardDatabase = FirebaseFirestore.instance.collection("YuGiOh Cards");
   final CollectionReference APIConfigs = FirebaseFirestore.instance.collection("API Configs");
+  final CollectionReference orderCollection = FirebaseFirestore.instance.collection("Order Collection");
 
   Future UploadCardToDatabase(Map<String, dynamic> Data) async
   {
@@ -33,7 +34,7 @@ class Database
       APIConfigs.doc("CardMarket").get().then((value) => CardMarket_API.setup(value));
     }
     if(!RoyalMail_API.instance.hasData) {
-      APIConfigs.doc("RoyalMail")..get().then((value) => RoyalMail_API.setup(value));
+      APIConfigs.doc("RoyalMail").get().then((value) => RoyalMail_API.setup(value));
     }
   }
 
@@ -52,4 +53,8 @@ class Database
   //User from snapshot
   User _userFromSnapshot(DocumentSnapshot snapshot) => User.documentSnapshot(snapshot);
 
+
+  Future UploadOrder(Map data) async {
+    return await orderCollection.doc().set(data);
+  }
 }

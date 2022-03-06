@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:next_level_admin/Data%20Models/User.dart';
+import 'package:next_level_admin/Pages/Dashboard/Order%20System/OrderSystem.dart';
 import 'package:next_level_admin/Pages/Dashboard/System%20Settings/SystemSettings.dart';
 import 'package:next_level_admin/Services/Database.dart';
 import 'package:next_level_admin/Shared/Values/Constants_Enums.dart';
@@ -12,7 +13,7 @@ class DashboardWrapper extends StatefulWidget {
 
 class _DashboardWrapperState extends State<DashboardWrapper> {
 
-  int _selectedIndex = 4;
+  int _selectedIndex = 3;
   bool isSideBarExtended = false;
 
   @override
@@ -95,7 +96,7 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
       case DashboardPage.Resource: //Stock Management
         return Text("Resource");
       case DashboardPage.Order: //Order Management
-        return Text("Order");
+        return OrderSystem();
       case DashboardPage.Settings: //System Settings
         return SystemSettings();
       default:
