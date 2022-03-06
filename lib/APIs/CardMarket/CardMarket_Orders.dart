@@ -116,14 +116,17 @@ class CardMarket_Orders
 
   Map<String, dynamic> _createData() {
     Map<String, dynamic> data = Map();
+    //Buyer ID
     data["buyerID"] = buyerID;
     data["username"] = Username;
+    //Postal Address
     data["name"] = Name;
     data["extra"] = Extra;
     data["street"] = Street;
     data["postcode"] = PostCode;
     data["city"] = City;
     data["country"] = Country;
+    //Order State
     data["purchase_state"] = PurchaseState;
     data["dateBought"] = dateBought;
     data["datePaid"] = datePaid;
