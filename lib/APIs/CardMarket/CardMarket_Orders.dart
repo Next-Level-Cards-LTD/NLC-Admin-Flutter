@@ -15,6 +15,9 @@ import 'package:xml/xml.dart';
 
 class CardMarket_Orders
 {
+  //TODO Need to move this to a data model and structure this out properly once it all works
+  String source = "Card Market";
+  int orderID = 0;
 
   //Buyer ID
   String buyerID = "";
@@ -32,6 +35,16 @@ class CardMarket_Orders
   String PurchaseState = "";
   DateTime dateBought = new DateTime.now();
   DateTime datePaid = new DateTime.now();
+  DateTime dateSent = new DateTime.now();
+
+  //Shipping Method
+  int ShippingID = 0;
+  String MethodName = "";
+  double ShippingPrice = 0;
+  int currencyID = 0;
+  String CurrencyCode = "";
+  bool isLetter = true;
+  bool isInsured = false;
 
   Future<String> GetOrder(int OrderID) async {
     String url = "https://api.cardmarket.com/ws/v2.0/order/$OrderID";
@@ -76,14 +89,15 @@ class CardMarket_Orders
       final document = XmlDocument.parse(xml);
 
 
-      final buyer = document.findAllElements('buyer');
-      _getUserData(buyer);
+      orderID = int.parse(document.findAllElements('idOrder').single.text);
 
-      final state = document.findAllElements('state').first;
-      _getStateData(state);
+      _getUserData(document.findAllElements('buyer'));
+      _getStateData(document.findAllElements('state').first);
+      _getPostalAddress(document.findAllElements('shippingAddress'));
+      print(document.findAllElements('shippingMethod'));
+      _getShippingMethod(document.findAllElements('shippingMethod'));
 
-
-      Database().UploadOrder(_createData());
+      Database().UploadOrder("CM-$orderID", _createData());
 
       return "Got Order";
     }
@@ -95,27 +109,42 @@ class CardMarket_Orders
 
 
   _getUserData(Iterable<XmlElement> buyer) {
-
     buyerID = buyer.map((e) => e.findAllElements("idUser").single.text).single.toString();
     Username = buyer.map((e) => e.findAllElements("username").single.text).single.toString();
-
-    final address = buyer.map((e) => e.findAllElements("address"));
-    Name = address.map((e) => e.map((e) => e.findAllElements("name").single.text).single).single..toString();
-    Extra = address.map((e) => e.map((e) => e.findAllElements("extra").single.text).single).single..toString();
-    Street = address.map((e) => e.map((e) => e.findAllElements("street").single.text).single).single..toString();
-    PostCode = address.map((e) => e.map((e) => e.findAllElements("zip").single.text).single).single..toString();
-    City = address.map((e) => e.map((e) => e.findAllElements("city").single.text).single).single..toString();
-    Country = address.map((e) => e.map((e) => e.findAllElements("country").single.text).single).single..toString();
   }
 
   _getStateData(XmlElement state) {
     PurchaseState = state.findAllElements('state').single.text;
     dateBought = DateTime.parse(state.findAllElements('dateBought').single.text);
     datePaid = DateTime.parse(state.findAllElements('datePaid').single.text);
+    dateSent = DateTime.parse(state.findAllElements('dateSent').single.text);
+  }
+
+  _getPostalAddress(Iterable<XmlElement> address){
+    Name = address.map((e) => e.findAllElements("name").single.text).single.toString();
+    Extra = address.map((e) => e.findAllElements("extra").single.text).single.toString();
+    Street = address.map((e) => e.findAllElements("street").single.text).single.toString();
+    PostCode = address.map((e) => e.findAllElements("zip").single.text).single.toString();
+    City = address.map((e) => e.findAllElements("city").single.text).single.toString();
+    Country = address.map((e) => e.findAllElements("country").single.text).single.toString();
+  }
+
+  _getShippingMethod(Iterable<XmlElement> method){
+    ShippingID = int.parse(method.map((e) => e.findAllElements("idShippingMethod").single.text).single.toString());
+    MethodName = method.map((e) => e.findAllElements("name").single.text).single.toString();
+    ShippingPrice = double.parse(method.map((e) => e.findAllElements("price").single.text).single.toString());
+    currencyID = int.parse(method.map((e) => e.findAllElements("idCurrency").single.text).single.toString());
+    CurrencyCode = method.map((e) => e.findAllElements("currencyCode").single.text).single.toString();
+    isLetter = method.map((e) => e.findAllElements("isLetter").single.text).single.toString() == 'true';
+    isInsured = method.map((e) => e.findAllElements("isInsured").single.text).single.toString() == 'true';
   }
 
   Map<String, dynamic> _createData() {
     Map<String, dynamic> data = Map();
+
+    data["source"] = source;
+    data["orderID"] = orderID;
+
     //Buyer ID
     data["buyerID"] = buyerID;
     data["username"] = Username;
@@ -130,6 +159,16 @@ class CardMarket_Orders
     data["purchase_state"] = PurchaseState;
     data["dateBought"] = dateBought;
     data["datePaid"] = datePaid;
+    data["dataSent"] = dateSent;
+
+    //Shipping Method
+    data["shippingID"] = ShippingID;
+    data["method_name"] = MethodName;
+    data["shipping_price"] = ShippingPrice;
+    data["currencyID"] = currencyID;
+    data["currency_code"] = CurrencyCode;
+    data["is_letter"] = isLetter;
+    data["is_insured"] = isInsured;
 
     return data;
   }

@@ -12,7 +12,7 @@ class Database
   final CollectionReference userCollection = FirebaseFirestore.instance.collection("Users");
   final CollectionReference YuGiOhCardDatabase = FirebaseFirestore.instance.collection("YuGiOh Cards");
   final CollectionReference APIConfigs = FirebaseFirestore.instance.collection("API Configs");
-  final CollectionReference orderCollection = FirebaseFirestore.instance.collection("Order Collection");
+  final CollectionReference orderCollection = FirebaseFirestore.instance.collection("Orders");
 
   Future UploadCardToDatabase(Map<String, dynamic> Data) async
   {
@@ -54,7 +54,17 @@ class Database
   User _userFromSnapshot(DocumentSnapshot snapshot) => User.documentSnapshot(snapshot);
 
 
-  Future UploadOrder(Map data) async {
-    return await orderCollection.doc().set(data);
+  Future UploadOrder(String docName, Map<String, dynamic> data) async {
+    DocumentSnapshot doc = await orderCollection.doc(docName).get();
+    if(doc.exists)
+      {
+        print("Update");
+        return await orderCollection.doc(docName).update(data);
+      }
+    else
+      {
+        print("Create");
+        return await orderCollection.doc(docName).set(data);
+      }
   }
 }
