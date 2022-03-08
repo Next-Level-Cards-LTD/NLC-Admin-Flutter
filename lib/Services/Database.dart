@@ -54,17 +54,28 @@ class Database
   User _userFromSnapshot(DocumentSnapshot snapshot) => User.documentSnapshot(snapshot);
 
 
-  Future UploadOrder(String docName, Map<String, dynamic> data) async {
+  Future UploadOrder(String docName, Map<String, dynamic> data, List<Map<String, dynamic>> articles) async {
     DocumentSnapshot doc = await orderCollection.doc(docName).get();
     if(doc.exists)
       {
         print("Update");
-        return await orderCollection.doc(docName).update(data);
+        return await orderCollection.doc(docName).update(data).then((value) =>
+        {
+          //Update shouldn't need to update the articles
+          articles.forEach((element) {
+            orderCollection.doc(docName).collection("Articles").doc(element.values.first.toString()).set(element);
+          })
+        });
       }
     else
       {
         print("Create");
-        return await orderCollection.doc(docName).set(data);
+        return await orderCollection.doc(docName).set(data).then((value) =>
+        {
+          articles.forEach((element) {
+            orderCollection.doc(docName).collection("Articles").doc(element.values.first.toString()).set(element);
+          })
+        });
       }
   }
 }

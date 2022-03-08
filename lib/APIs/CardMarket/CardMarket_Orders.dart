@@ -34,8 +34,9 @@ class CardMarket_Orders
   //Order State
   String PurchaseState = "";
   DateTime dateBought = new DateTime.now();
-  DateTime datePaid = new DateTime.now();
-  DateTime dateSent = new DateTime.now();
+  DateTime? datePaid;
+  DateTime? dateSent;
+  DateTime? dateReceived;
 
   //Shipping Method
   int ShippingID = 0;
@@ -45,6 +46,22 @@ class CardMarket_Orders
   String CurrencyCode = "";
   bool isLetter = true;
   bool isInsured = false;
+
+  String trackingNumber = "";
+  bool isPresale = false;
+
+  int articleCount = 0;
+
+
+  //evaluation data
+  int evaluationGrade = 0;
+  int itemDescription = 0;
+  int packaging = 0;
+  String comment = "";
+  
+  List<Article> articles = new List.empty(growable: true);
+
+  List<Map<String, dynamic>> test = new List.empty(growable: true);
 
   Future<String> GetOrder(int OrderID) async {
     String url = "https://api.cardmarket.com/ws/v2.0/order/$OrderID";
@@ -94,10 +111,19 @@ class CardMarket_Orders
       _getUserData(document.findAllElements('buyer'));
       _getStateData(document.findAllElements('state').first);
       _getPostalAddress(document.findAllElements('shippingAddress'));
-      print(document.findAllElements('shippingMethod'));
       _getShippingMethod(document.findAllElements('shippingMethod'));
+      trackingNumber = document.findAllElements('trackingNumber').single.text;
+      isPresale = document.findAllElements('trackingNumber').single.text == 'true';
 
-      Database().UploadOrder("CM-$orderID", _createData());
+      articleCount = int.parse(document.findAllElements('articleCount').single.text);
+      if(PurchaseState == "evaluated")
+        {
+          _getEvaluation(document.findAllElements('evaluation'));
+        }
+
+      _getArticles(document.findAllElements('article'));
+
+      Database().UploadOrder("CM-$orderID", _createData(), test);
 
       return "Got Order";
     }
@@ -116,8 +142,21 @@ class CardMarket_Orders
   _getStateData(XmlElement state) {
     PurchaseState = state.findAllElements('state').single.text;
     dateBought = DateTime.parse(state.findAllElements('dateBought').single.text);
-    datePaid = DateTime.parse(state.findAllElements('datePaid').single.text);
-    dateSent = DateTime.parse(state.findAllElements('dateSent').single.text);
+
+
+    //TODO See if I can reduce these if statements to one line
+    if(state.findAllElements('datePaid').isNotEmpty)
+    {
+      datePaid = DateTime.parse(state.findAllElements('datePaid').single.text);
+    }
+    if(state.findAllElements('dateSent').isNotEmpty)
+      {
+        dateSent = DateTime.parse(state.findAllElements('dateSent').single.text);
+      }
+    if(state.findAllElements('dateReceived').isNotEmpty)
+    {
+      dateReceived = DateTime.parse(state.findAllElements('dateReceived').single.text);
+    }
   }
 
   _getPostalAddress(Iterable<XmlElement> address){
@@ -137,6 +176,17 @@ class CardMarket_Orders
     CurrencyCode = method.map((e) => e.findAllElements("currencyCode").single.text).single.toString();
     isLetter = method.map((e) => e.findAllElements("isLetter").single.text).single.toString() == 'true';
     isInsured = method.map((e) => e.findAllElements("isInsured").single.text).single.toString() == 'true';
+  }
+
+  _getEvaluation(Iterable<XmlElement> evaluation){
+    evaluationGrade = int.parse(evaluation.map((e) => e.findAllElements("evaluationGrade").single.text).single.toString());
+    itemDescription = int.parse(evaluation.map((e) => e.findAllElements("itemDescription").single.text).single.toString());
+    packaging = int.parse(evaluation.map((e) => e.findAllElements("packaging").single.text).single.toString());
+    comment = evaluation.map((e) => e.findAllElements("comment").single.text).single.toString();
+  }
+
+  _getArticles(Iterable<XmlElement> Articles){
+    Articles.forEach((element) => test.add(Article(element).getMap()));
   }
 
   Map<String, dynamic> _createData() {
@@ -160,7 +210,7 @@ class CardMarket_Orders
     data["dateBought"] = dateBought;
     data["datePaid"] = datePaid;
     data["dataSent"] = dateSent;
-
+    data["dateReceived"] = dateReceived;
     //Shipping Method
     data["shippingID"] = ShippingID;
     data["method_name"] = MethodName;
@@ -169,6 +219,16 @@ class CardMarket_Orders
     data["currency_code"] = CurrencyCode;
     data["is_letter"] = isLetter;
     data["is_insured"] = isInsured;
+
+    data["tracking_number"] = trackingNumber;
+    data["is_presale"] = isPresale;
+    data["article_count"] = articleCount;
+
+    //evaluation
+    data["evaluation_grade"] = evaluationGrade;
+    data["item_description_evaluation"] = itemDescription;
+    data["packaging_evaluation"] = packaging;
+    data["comment_evaluation"] = comment;
 
     return data;
   }
@@ -233,4 +293,42 @@ class CardMarket_Orders
   }
 
 
+}
+
+class Article{
+  int articleID = 0;
+  int productID = 0;
+  int languageID = 0;
+  String languageName = "";
+  double pricePer = 0.0;
+  int currencyID = 0;
+  String currencyCode = "";
+  int articleCount = 0;
+  
+  //product
+  int gameID = 0;
+  String enName = "";
+  String locName = "";
+  String expansion = "";
+  String code = "";
+  int expIcon = 0;
+  String rarity = "";
+  
+  String condition = "";
+  bool isSigned = false;
+  bool isFirstED = false;
+  bool isAltered = false;
+  
+  Article(XmlElement xml) {
+    articleID = int.parse(xml.findAllElements("idArticle").single.text);
+
+  }
+
+  Map<String, dynamic> getMap() {
+    Map<String, dynamic> data = Map();
+
+    data["article_ID"] = articleID;
+
+    return data;
+  }
 }
