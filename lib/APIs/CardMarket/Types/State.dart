@@ -3,6 +3,7 @@ part of 'package:next_level_admin/APIs/CardMarket/CardMarket_Library.dart';
 class State {
 
   String purchaseState = "";
+
   DateTime dateBought = new DateTime.now();
   DateTime? datePaid;
   DateTime? dateSent;
@@ -11,6 +12,7 @@ class State {
   State();
 
   State.fromXml(XmlElement state) {
+
     purchaseState = state.findAllElements('state').single.text;
     dateBought = DateTime.parse(state.findAllElements('dateBought').single.text);
     datePaid = state.findAllElements('datePaid').isNotEmpty ? DateTime.parse(state.findAllElements('datePaid').single.text) : datePaid;
