@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:next_level_admin/Shared/Values/Constants_Colours.dart';
+import 'package:next_level_admin/Constants/Values/Constants_Colours.dart';
 
 class ErrorMessageText extends StatelessWidget {
 

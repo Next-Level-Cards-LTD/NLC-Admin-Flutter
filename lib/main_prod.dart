@@ -1,11 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:next_level_admin/APIs/CardMarket/CardMarket_Orders.dart';
-import 'package:next_level_admin/APIs/Configs/CardMarket.dart';
-import 'package:next_level_admin/RoyalMail_CaC_CreateOrder.dart';
-import 'package:next_level_admin/Services/Database.dart';
-import 'package:next_level_admin/YuGiOh_GetData.dart';
-import 'package:next_level_admin/flavor.dart';
+import 'package:next_level_admin/APIs/CardMarket/CardMarket_Library.dart' as CM;
+import 'package:next_level_admin/APIs/CardMarket/Config.dart';
+import 'package:next_level_admin/Constants/Values/Constants_Enums.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -82,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => CardMarket_Orders().GetAccountData(), //CardMarket_Orders().GetAccountData(), //YuGiOh_GetData().GetData(),
+        onPressed: () => {},
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
@@ -92,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget HomeScreen()
   {
     return StreamBuilder<CardMarket_API>(
-        stream: Database().CardMarketAPI,
+        stream: CM.CardMarket().CardMarketAPI,
         builder: (context, snapshot) {
 
           if(!snapshot.hasData)
