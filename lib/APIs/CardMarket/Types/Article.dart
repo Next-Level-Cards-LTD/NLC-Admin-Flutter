@@ -55,7 +55,7 @@ class Article{
     data["is_signed"] = isSigned;
     data["is_first_ed"] = isFirstED;
     data["is_altered"] = isAltered;
-    
+
     return data;
   }
 }
