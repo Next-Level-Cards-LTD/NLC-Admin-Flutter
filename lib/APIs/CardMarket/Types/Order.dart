@@ -40,6 +40,26 @@ class Order {
     }
   }
 
+  Order.fromXmlElement(XmlElement doc) {
+    ID = int.parse(doc.findAllElements('idOrder').single.text);
+
+    buyer = User.fromXml(doc.findAllElements('buyer'));
+    address = Address.fromXML(doc.findAllElements('shippingAddress'));
+    state = State.fromXml(doc.findAllElements('state').first);
+    shippingMethod = ShippingMethod.fromXml(doc.findAllElements('shippingMethod'));
+
+    articles = Articles.fromXml(doc.findAllElements('article'));
+
+    trackingNumber = doc.findAllElements('trackingNumber').single.text;
+    isPresale = doc.findAllElements('trackingNumber').single.text == 'true';
+
+    articleCount = int.parse(doc.findAllElements('articleCount').single.text);
+
+    if(state.hasEvaluated()) {
+      evaluation = Evaluation.fromXml(doc.findAllElements('evaluation'));
+    }
+  }
+
   Map<String, dynamic> toMap() {
     Map<String, dynamic> orderData = new Map();
 

@@ -13,13 +13,13 @@ class Product{
   Product();
 
   Product.fromXml(XmlElement product){
-    gameID = int.parse(product.findAllElements("idGame").single.text);
-    enName = product.findAllElements("enName").single.text;
-    locName = product.findAllElements("locName").single.text;
-    expansion = product.findAllElements("expansion").single.text;
-    code = product.findAllElements("nr").single.text;
-    expIcon = int.parse(product.findAllElements("expIcon").single.text);
-    rarity = product.findAllElements("rarity").single.text;
+    gameID = product.findAllElements("idGame").isNotEmpty ? int.parse(product.findAllElements("idGame").single.text) : 0;
+    enName = product.findAllElements("enName").isNotEmpty ? product.findAllElements("enName").single.text : "";
+    locName = product.findAllElements("locName").isNotEmpty ? product.findAllElements("locName").single.text : "";
+    expansion = product.findAllElements("expansion").isNotEmpty ? product.findAllElements("expansion").single.text : "";
+    code = product.findAllElements("nr").isNotEmpty ? product.findAllElements("nr").single.text : "";
+    expIcon = product.findAllElements("expIcon").isNotEmpty ? int.parse(product.findAllElements("expIcon").single.text) : 0;
+    rarity = product.findAllElements("rarity").isNotEmpty ? product.findAllElements("rarity").single.text : "";
   }
 
   Map<String, dynamic> toMap() => {
