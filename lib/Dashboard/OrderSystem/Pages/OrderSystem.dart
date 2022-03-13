@@ -14,7 +14,7 @@ class _OrderSystemState extends State<OrderSystem> {
     return Column(
       children: [
         Text("Order System"),
-        ElevatedButton(onPressed: () => CardMarket_Orders().getOrder(1069499244), child: Text("Get Orders"))
+        ElevatedButton(onPressed: () => CardMarket_Orders().getAllPaidOrders(), child: Text("Get Orders"))
       ],
     );
   }

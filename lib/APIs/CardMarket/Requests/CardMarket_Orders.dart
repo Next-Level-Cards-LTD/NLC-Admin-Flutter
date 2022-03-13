@@ -40,6 +40,35 @@ class CardMarket_Orders
     }
   }
 
+  Future<String> getAllPaidOrders() async {
+    String url = "https://api.cardmarket.com/ws/v2.0/orders/1/2";
+
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: '${CM.CardMarket.getOAuth(url)}'
+    };
+
+    final response = await http.get(Uri.parse(url), headers: headers);
+
+    if(response.statusCode == 200)
+    {
+      //This gets the file from the api body and lets me be able to do things to it
+      String xml = utf8.decode(response.bodyBytes);
+
+      XmlDocument document = XmlDocument.parse(xml);
+      print(document.findAllElements('order').length);
+      document.findAllElements('order').forEach((element) {
+        Order order = new Order.fromXmlElement(element);
+        OrderSystem().UploadOrder("CM-${order.ID}", order.toMap(), order.articles);
+      });
+
+      return "Got Order";
+    }
+    else
+    {
+      return "This Failed";
+    }
+  }
+
 
 
   Future<String> GetAccountData() async {

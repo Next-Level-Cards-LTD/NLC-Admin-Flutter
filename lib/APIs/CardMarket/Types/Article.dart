@@ -10,7 +10,7 @@ class Article{
   String currencyCode = "";
   int articleCount = 0;
 
-  late Product product;
+  late Product products;
 
   String condition = "";
   bool isSigned = false;
@@ -20,21 +20,21 @@ class Article{
   Article();
 
   Article.fromXml(XmlElement xml) {
-    articleID = int.parse(xml.findAllElements("idArticle").single.text);
-    productID = int.parse(xml.findAllElements("idProduct").single.text);
-    languageID = int.parse(xml.findAllElements("idLanguage").single.text);
-    languageName = xml.findAllElements("languageName").single.text;
-    pricePer = double.parse(xml.findAllElements("price").single.text);
-    currencyID = int.parse(xml.findAllElements("idCurrency").single.text);
-    currencyCode = xml.findAllElements("currencyCode").single.text;
-    articleCount = int.parse(xml.findAllElements("count").single.text);
+    articleID = xml.findAllElements("idArticle").isNotEmpty ? int.parse(xml.findAllElements("idArticle").single.text) : 0;
+    productID = xml.findAllElements("idProduct").isNotEmpty ? int.parse(xml.findAllElements("idProduct").single.text) : 0;
+    languageID = xml.findAllElements("idLanguage").isNotEmpty ? int.parse(xml.findAllElements("idLanguage").single.text) : 0;
+    languageName = xml.findAllElements("languageName").isNotEmpty ? xml.findAllElements("languageName").single.text : "";
+    pricePer = xml.findAllElements("languageName").isNotEmpty ? double.parse(xml.findAllElements("price").single.text) : 0;
+    currencyID = xml.findAllElements("idCurrency").isNotEmpty ? int.parse(xml.findAllElements("idCurrency").single.text) : 0;
+    currencyCode = xml.findAllElements("currencyCode").isNotEmpty ? xml.findAllElements("currencyCode").single.text : "";
+    articleCount = xml.findAllElements("count").isNotEmpty ? int.parse(xml.findAllElements("count").single.text) : 0;
 
-    product = Product.fromXml(xml.findAllElements("product").single);
+    products = Product.fromXml(xml.findAllElements("product").single);
 
-    condition = xml.findAllElements("condition").single.text;
-    isSigned = xml.findAllElements("isSigned").single.text == 'true';
-    isFirstED = xml.findAllElements("isFirstEd").single.text == 'true';
-    isAltered = xml.findAllElements("isAltered").single.text == 'true';
+    condition = xml.findAllElements("condition").isNotEmpty ? xml.findAllElements("condition").single.text : "";
+    isSigned = xml.findAllElements("isSigned").isNotEmpty ? xml.findAllElements("isSigned").single.text == 'true' : false;
+    isFirstED = xml.findAllElements("isFirstEd").isNotEmpty ? xml.findAllElements("isFirstEd").single.text == 'true' : false;
+    isAltered = xml.findAllElements("isAltered").isNotEmpty ? xml.findAllElements("isAltered").single.text == 'true' : false;
   }
 
   Map<String, dynamic> toMap() {
@@ -49,7 +49,7 @@ class Article{
     data["currency_code"] = currencyCode;
     data["article_count"] = articleCount;
 
-    data.addAll(product.toMap());
+    data.addAll(products.toMap());
 
     data["condition"] = condition;
     data["is_signed"] = isSigned;
