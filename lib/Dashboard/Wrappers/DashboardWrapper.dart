@@ -97,7 +97,7 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
       case DashboardPage.Resource: //Stock Management
         return Text("Resource");
       case DashboardPage.Order: //Order Management
-        return OrderSystem();
+        return OrderSystemPage();
       case DashboardPage.Settings: //System Settings
         return SystemSettings();
       default:

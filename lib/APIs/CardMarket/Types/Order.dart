@@ -5,6 +5,7 @@ part of 'package:next_level_admin/APIs/CardMarket/CardMarket_Library.dart';
 class Order {
 
   String source = "Card Market";
+
   int ID = 0;
 
   String trackingNumber = "";
@@ -19,6 +20,14 @@ class Order {
   late Evaluation evaluation;
   late Articles articles;
 
+  double articleValue = 0.0;
+  double totalValue = 0.0;
+
+
+  Order.FromSnapshot(DocumentSnapshot doc)
+  {
+
+  }
 
   Order(XmlDocument doc){
     ID = int.parse(doc.findAllElements('idOrder').single.text);
@@ -38,6 +47,9 @@ class Order {
     if(state.hasEvaluated()) {
       evaluation = Evaluation.fromXml(doc.findAllElements('evaluation'));
     }
+
+    articleValue = double.parse(doc.findAllElements('articleValue').single.text);
+    totalValue = double.parse(doc.findAllElements('totalValue').single.text);
   }
 
   Order.fromXmlElement(XmlElement doc) {
@@ -58,6 +70,9 @@ class Order {
     if(state.hasEvaluated()) {
       evaluation = Evaluation.fromXml(doc.findAllElements('evaluation'));
     }
+
+    articleValue = double.parse(doc.findAllElements('articleValue').single.text);
+    totalValue = double.parse(doc.findAllElements('totalValue').single.text);
   }
 
   Map<String, dynamic> toMap() {
@@ -74,6 +89,9 @@ class Order {
     orderData["tracking_number"] = trackingNumber;
     orderData["is_presale"] = isPresale;
     orderData["article_count"] = articleCount;
+
+    orderData["article_value"] = articleValue;
+    orderData["total_value"] = totalValue;
 
     return orderData;
   }
