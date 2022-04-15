@@ -8,6 +8,13 @@ import 'package:next_level_admin/Shared/Libraries/Database_Library.dart';
 import 'package:next_level_admin/Shared/Widgets/Widget_Loading.dart';
 
 class DashboardWrapper extends StatefulWidget {
+
+  static const String route = "dashboard";
+
+  int selectedIndex = 0;
+
+  DashboardWrapper({required this.selectedIndex});
+
   @override
   _DashboardWrapperState createState() => _DashboardWrapperState();
 }
@@ -17,11 +24,19 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
   int _selectedIndex = 3;
   bool isSideBarExtended = false;
 
+
+  @override
+  void initState() {
+    _selectedIndex = widget.selectedIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User>(
         stream: Authentication().user,
         builder: (context, snapshot) {
+
+
 
           if(!snapshot.hasData)
           {
@@ -36,8 +51,10 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
                 NavigationRail(selectedIndex: _selectedIndex,
                   onDestinationSelected: (int index) {
                     setState(() {
-                      _selectedIndex = index;
-                      SetActiveWidget(DashboardPage.values[_selectedIndex]);
+                      //_selectedIndex = index;
+                      //SetActiveWidget(DashboardPage.values[_selectedIndex]);
+                      print(DashboardPage.values[index].toString());
+                      Navigator.of(context).pushNamed("/${getNavigationRoute(DashboardPage.values[index])}");
                     });
                   },
                   labelType: NavigationRailLabelType.none,
@@ -73,6 +90,7 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
                   //minExtendedWidth: 10,
                 ),
                 SetActiveWidget(DashboardPage.values[_selectedIndex])
+                //Navigator.of(context).pushNamed("/Dashboard")
               ],
             ),
           );
@@ -102,6 +120,25 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
         return SystemSettings();
       default:
         return Row();
+    }
+  }
+
+  String getNavigationRoute(DashboardPage dp)
+  {
+    switch(dp)
+    {
+      case DashboardPage.Dashboard: //Dashboard
+        return "dashboard";
+      case DashboardPage.Stock: //Stock Management
+        return "stock";
+      case DashboardPage.Resource: //Stock Management
+        return "resource";
+      case DashboardPage.Order: //Order Management
+        return OrderSystemPage.route;
+      case DashboardPage.Settings: //System Settings
+        return SystemSettings.route;
+      default:
+        return "dashboard";
     }
   }
 

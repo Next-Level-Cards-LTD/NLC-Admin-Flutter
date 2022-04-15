@@ -1,11 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:next_level_admin/Constants/Values/Constants_Enums.dart';
+import 'package:next_level_admin/Dashboard/OrderSystem/OrderSystem.dart';
+import 'package:next_level_admin/Dashboard/OrderSystem/Pages/OrderSystem.dart';
+import 'package:next_level_admin/Dashboard/SystemSettings/Pages/SystemSettings.dart';
 import 'package:next_level_admin/Shared/Libraries/Database_Library.dart';
 import 'package:next_level_admin/Shared/Widgets/Widget_Loading.dart';
 import 'package:next_level_admin/Authentication/Wrappers/AuthWrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Auth;
+
+import 'Dashboard/Wrappers/DashboardWrapper.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,15 +34,23 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      //home: MyHomePage(),
+      routes: {
+        MyHomePage.route : (context) => MyHomePage(),
+        "/${DashboardWrapper.route}" : (context) => DashboardWrapper(selectedIndex: 0),
+        "/stock" : (context) => DashboardWrapper(selectedIndex: 1),
+        "/resource" : (context) => DashboardWrapper(selectedIndex: 2),
+        "/${OrderSystemPage.route}" : (context) => DashboardWrapper(selectedIndex: 3),
+        "/${SystemSettings.route}" : (context) => DashboardWrapper(selectedIndex: 4),
+        '/login' : (context) => AuthWrapper()
+      },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  final String title;
+  static const String route = "/";
 
   @override
   _MyHomePageState createState() => _MyHomePageState();

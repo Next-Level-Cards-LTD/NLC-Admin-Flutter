@@ -5,6 +5,8 @@ import 'package:next_level_admin/Dashboard/SystemSettings/Wrappers/SystemSetting
 class SystemSettings extends StatefulWidget {
   const SystemSettings({Key? key}) : super(key: key);
 
+  static const String route = "systemsettings";
+
   @override
   _SystemSettingsState createState() => _SystemSettingsState();
 }

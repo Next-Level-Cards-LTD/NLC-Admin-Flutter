@@ -8,6 +8,8 @@ import '../OrderSystem.dart';
 class OrderSystemPage extends StatefulWidget {
   const OrderSystemPage({Key? key}) : super(key: key);
 
+  static const String route = "orders";
+
   @override
   _OrderSystemPageState createState() => _OrderSystemPageState();
 }
