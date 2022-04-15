@@ -22,6 +22,17 @@ class ShippingMethod {
     isInsured = method.map((e) => e.findAllElements("isInsured").single.text).single.toString() == 'true';
   }
 
+  ShippingMethod.fromSnapshot(DocumentSnapshot doc)
+  {
+    ShippingID = doc["shippingID"];
+    MethodName = doc["method_name"];
+    ShippingPrice = doc["shipping_price"];
+    currencyID = doc["currencyID"];
+    CurrencyCode = doc["currency_code"];
+    isLetter = doc["is_letter"];
+    isInsured = doc["is_insured"];
+  }
+
   Map<String, dynamic> toMap() => {
     "shippingID" : ShippingID,
     "method_name" : MethodName,

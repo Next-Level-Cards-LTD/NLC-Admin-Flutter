@@ -16,6 +16,14 @@ class Evaluation{
     comment = evaluation.map((e) => e.findAllElements("comment").single.text).single.toString();
   }
 
+  Evaluation.fromSnapshot(DocumentSnapshot doc)
+  {
+    //evaluationGrade = doc["evaluation_grade"] ?? 0;
+    //itemDescription = doc["item_description_evaluation"] ?? 0;
+    //packaging = doc["packaging_evaluation"] ?? 0;
+    //comment = doc["comment_evaluation"] ?? "";
+  }
+
   Map<String, dynamic> toMap() => {
     "evaluation_grade" : evaluationGrade,
     "item_description_evaluation" : itemDescription,

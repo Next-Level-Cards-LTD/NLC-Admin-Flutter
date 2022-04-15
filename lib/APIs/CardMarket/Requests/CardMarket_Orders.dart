@@ -47,9 +47,37 @@ class CardMarket_Orders
       HttpHeaders.authorizationHeader: '${CM.CardMarket.getOAuth(url)}'
     };
 
-    final response = await http.get(Uri.parse(url), headers: headers);
+    return getResponse(url, headers);
+  }
 
-    if(response.statusCode == 200)
+  Future<String> getAllSentOrders() async {
+    String url = "https://api.cardmarket.com/ws/v2.0/orders/1/4";
+
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: '${CM.CardMarket.getOAuth(url)}'
+    };
+
+    return getResponse(url, headers);
+  }
+
+  Future<String> getAllReceivedOrders(int start) async {
+    print("running");
+
+    String url = "https://api.cardmarket.com/ws/v2.0/orders/1/8/$start";
+
+    Map<String, String> headers = {
+      HttpHeaders.authorizationHeader: '${CM.CardMarket.getOAuth(url)}'
+    };
+
+    return await getResponse(url, headers);
+  }
+
+  Future<String> getResponse(String url, Map<String, String> headers)
+  async {
+
+  final response = await http.get(Uri.parse(url), headers: headers);
+
+    if(response.statusCode == 200 || response.statusCode == 206)
     {
       //This gets the file from the api body and lets me be able to do things to it
       String xml = utf8.decode(response.bodyBytes);
@@ -60,15 +88,24 @@ class CardMarket_Orders
         Order order = new Order.fromXmlElement(element);
         OrderSystem().UploadOrder("CM-${order.ID}", order.toMap(), order.articles);
       });
-
+      print("Finished - Worked");
       return "Got Order";
     }
     else
     {
+      print("Finished - Failed");
+      print("${response.statusCode}");
       return "This Failed";
     }
   }
 
+  syncAllOrders()
+  {
+    getAllPaidOrders();
+    getAllSentOrders();
+    //Will bring this back at a later point, as really only want it to go through the sent orders and check if those have been received
+    //getAllReceivedOrders(1);
+  }
 
 
   Future<String> GetAccountData() async {
