@@ -37,7 +37,7 @@ class OrderSystem{
   }
   
   Stream <List<OrderTileType>?> get paidOrders {
-    return orderCollection.orderBy("datePaid", descending: false).snapshots().map(_displayPaidOrdersFromSnapshot);
+    return orderCollection.where('purchase_state', isEqualTo: 'paid').snapshots().map(_displayPaidOrdersFromSnapshot);
   }
 
   List<OrderTileType>? _displayPaidOrdersFromSnapshot(QuerySnapshot snapshot) {
@@ -53,8 +53,11 @@ class OrderSystem{
       }).toList();
   }
 
-  Stream<CM.Order> get order => orderCollection.doc(OrderListener.activeOrderUID.value).snapshots().map(_getOrderFromSnapshot);
+  Stream<CM.Order> get order => orderCollection.doc("CM-${OrderListener.activeOrderUID.value}").snapshots().map(_getOrderFromSnapshot);
 
 
-  CM.Order _getOrderFromSnapshot(DocumentSnapshot snapshot) => CM.Order.FromSnapshot(snapshot);
+  CM.Order _getOrderFromSnapshot(DocumentSnapshot snapshot)
+  {
+    return CM.Order.FromSnapshot(snapshot);
+  }
 }

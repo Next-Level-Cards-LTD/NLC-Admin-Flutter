@@ -28,7 +28,7 @@ class _OrderSystemPageState extends State<OrderSystemPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Order System"),
-                ElevatedButton(onPressed: () => CardMarket_Orders().getAllPaidOrders(), child: Text("Get Orders")),
+                ElevatedButton(onPressed: () => CardMarket_Orders().syncAllOrders(), child: Text("Get Orders")),
                 Container(width: MediaQuery.of(context).size.width * 0.8, child: createDataTable(orders!)),
                 //createDataTable(orders!)
               ],

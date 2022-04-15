@@ -1,7 +1,5 @@
 part of 'package:next_level_admin/APIs/CardMarket/CardMarket_Library.dart';
 
-
-
 class Order {
 
   String source = "Card Market";
@@ -23,10 +21,23 @@ class Order {
   double articleValue = 0.0;
   double totalValue = 0.0;
 
-
   Order.FromSnapshot(DocumentSnapshot doc)
   {
+    ID = doc["orderID"];
+    source = doc["source"];
+    trackingNumber = doc["tracking_number"];
+    isPresale = doc["is_presale"];
+    articleCount = doc["article_count"];
 
+    buyer = User.fromSnapshot(doc);
+    address = Address.fromSnapshot(doc);
+    state = State.fromSnapshot(doc);
+    shippingMethod = ShippingMethod.fromSnapshot(doc);
+    evaluation = Evaluation.fromSnapshot(doc);
+
+
+    articleValue = doc["article_value"];
+    totalValue = doc["total_value"];
   }
 
   Order(XmlDocument doc){
@@ -96,3 +107,4 @@ class Order {
     return orderData;
   }
 }
+
