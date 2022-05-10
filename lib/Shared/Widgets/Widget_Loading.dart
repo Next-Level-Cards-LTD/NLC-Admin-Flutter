@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:next_level_admin/Shared/Values/Constants_Colours.dart';
+import 'package:next_level_admin/Constants/Values/Constants_Colours.dart';
 
 
 class Loading extends StatelessWidget {

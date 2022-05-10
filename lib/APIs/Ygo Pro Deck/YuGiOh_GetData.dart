@@ -4,8 +4,6 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import 'Services/Database.dart';
-
 class YuGiOh_GetData{
 
   String baseUrl = "https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Dark Magician";

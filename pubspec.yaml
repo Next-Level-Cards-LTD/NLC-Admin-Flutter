@@ -35,6 +35,10 @@ dependencies:
   crypto: ^3.0.0
   convert: 3.0.1
   xml: ^5.1.2
+  dart_json_mapper: 2.1.17
+
+  fluro: ^2.0.3
+  routemaster: ^1.0.0
 
   #Firebase
   firebase_core: ^1.6.0

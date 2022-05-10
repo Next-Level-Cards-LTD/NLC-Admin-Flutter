@@ -1,16 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:next_level_admin/APIs/CardMarket/CardMarket_Orders.dart';
-import 'package:next_level_admin/APIs/Configs/CardMarket.dart';
-import 'package:next_level_admin/RoyalMail_CaC_CreateOrder.dart';
-import 'package:next_level_admin/Services/Authentication.dart';
-import 'package:next_level_admin/Services/Database.dart';
+import 'package:next_level_admin/Constants/Values/Constants_Enums.dart';
+import 'package:next_level_admin/Dashboard/OrderSystem/OrderSystem.dart';
+import 'package:next_level_admin/Dashboard/OrderSystem/Pages/OrderSystem.dart';
+import 'package:next_level_admin/Dashboard/SystemSettings/Pages/SystemSettings.dart';
+import 'package:next_level_admin/Routes.dart';
+import 'package:next_level_admin/Shared/Libraries/Database_Library.dart';
 import 'package:next_level_admin/Shared/Widgets/Widget_Loading.dart';
-import 'package:next_level_admin/Wrappers/AuthWrapper.dart';
-import 'package:next_level_admin/YuGiOh_GetData.dart';
-import 'package:next_level_admin/flavor.dart';
+import 'package:next_level_admin/Authentication/Wrappers/AuthWrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Auth;
+import 'package:routemaster/routemaster.dart';
+
+import 'Dashboard/Wrappers/DashboardWrapper.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,33 +26,65 @@ Future<void> main() async {
   );
 }
 
+//      initialRoute: '/',
+//       onGenerateRoute: Flurorouter.router.generator,
+//       routes: {
+//         MyHomePage.route : (context) => MyHomePage(),
+//         "/${DashboardWrapper.route}" : (context) => DashboardWrapper(selectedIndex: 0),
+//         "/stock" : (context) => DashboardWrapper(selectedIndex: 1),
+//         "/resource" : (context) => DashboardWrapper(selectedIndex: 2),
+//         "/${OrderSystemPage.route}" : (context) => DashboardWrapper(selectedIndex: 3),
+//         "/${SystemSettings.route}" : (context) => DashboardWrapper(selectedIndex: 4),
+//         '/login' : (context) => AuthWrapper()
+
+//    return MaterialApp(
+//       title: 'Flutter Demo',
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData(
+//         primarySwatch: Colors.red,
+//       ),
+//       //home: MyHomePage(),
+//
+//       }
+//     );
+
+final routes = RouteMap(
+  routes: {
+    '/': (_) => TabPage(
+      child: MyHomePage(),
+      paths: ['feed', 'settings'],
+    ),
+        "/${DashboardWrapper.route}" : (context) => MaterialPage(child: DashboardWrapper(selectedIndex: 0)),
+        "/stock" : (context) => MaterialPage(child: DashboardWrapper(selectedIndex: 1)),
+        "/resource" : (context) => MaterialPage(child: DashboardWrapper(selectedIndex: 2)),
+        "/${OrderSystemPage.route}" : (context) => MaterialPage(child: DashboardWrapper(selectedIndex: 3)),
+        "/${SystemSettings.route}" : (context) => MaterialPage(child: DashboardWrapper(selectedIndex: 4)),
+        '/login' : (context) => MaterialPage(child: AuthWrapper())
+  },
+);
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return MaterialApp.router(
+        title: "Next Level Admin",
+        theme: ThemeData(primarySwatch: Colors.red,),
+        debugShowCheckedModeBanner: false,
+        routeInformationParser: RoutemasterParser(),
+        routerDelegate: RoutemasterDelegate(routesBuilder: (_) => routes));
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  final String title;
+  static const String route = "/";
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  int _selectedIndex = 0;
 
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp(name: "Next Level Cards Admin",
