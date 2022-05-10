@@ -6,7 +6,11 @@ import 'package:next_level_admin/Dashboard/OrderSystem/Types/OrderTileType.dart'
 import '../OrderSystem.dart';
 
 class OrderSystemPage extends StatefulWidget {
-  const OrderSystemPage({Key? key}) : super(key: key);
+
+  OrderSystemPage({this.orderID});
+
+  Map<String, dynamic>? params;
+  int? orderID;
 
   static const String route = "orders";
 
@@ -15,6 +19,9 @@ class OrderSystemPage extends StatefulWidget {
 }
 
 class _OrderSystemPageState extends State<OrderSystemPage> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<OrderTileType>?>(
@@ -74,6 +81,17 @@ class _OrderSystemPageState extends State<OrderSystemPage> {
     ],
       rows: dr,
     );
+  }
+
+  @override
+  void initState() {
+    //print(widget.params);
+    /*if (widget.params != null){
+      print("Not Null");
+      if(widget.params!.containsKey("orderID")){
+          OrderListener.setActiveOrderUID(widget.params!["orderID"].toString());
+      }
+    }*/
   }
 }
 
