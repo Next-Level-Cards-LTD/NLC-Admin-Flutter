@@ -24,39 +24,41 @@ class _LoginState extends State<Login> {
 
     Authentication().signInEmailAndPassword(email, password);
 
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text("Sign In"),
+    return Material(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Sign In"),
 
-          Form(
-            key: formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TextFormField(
-                    onChanged: (val) => setState(() => email = val),
-                    onSaved: (input) => email = input!,
-                    validator: (input) => input!.isEmpty ? "Enter Valid Email Address" :  null,
-                    decoration: textInputDecoration.copyWith(hintText: 'Email', prefixIcon: Icon(Icons.email, color: mainColor), labelText: 'Email'),
-                  ),
-                  TextFormField(
-                    onChanged: (val) =>setState(() => password = val),
-                    onSaved: (input) => password = input!,
-                    validator: (input) => input!.isEmpty ? "Enter Valid Password" :  null,
-                    decoration: textInputDecoration.copyWith(hintText: 'Password', prefixIcon: Icon(Icons.lock, color: mainColor), labelText: 'Password', labelStyle: TextStyle(color: mainColor)),
-                    obscureText: true,
-                  ),
-                ],
+            Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextFormField(
+                      onChanged: (val) => setState(() => email = val),
+                      onSaved: (input) => email = input!,
+                      validator: (input) => input!.isEmpty ? "Enter Valid Email Address" :  null,
+                      decoration: textInputDecoration.copyWith(hintText: 'Email', prefixIcon: Icon(Icons.email, color: mainColor), labelText: 'Email'),
+                    ),
+                    TextFormField(
+                      onChanged: (val) =>setState(() => password = val),
+                      onSaved: (input) => password = input!,
+                      validator: (input) => input!.isEmpty ? "Enter Valid Password" :  null,
+                      decoration: textInputDecoration.copyWith(hintText: 'Password', prefixIcon: Icon(Icons.lock, color: mainColor), labelText: 'Password', labelStyle: TextStyle(color: mainColor)),
+                      obscureText: true,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
 
-          ElevatedButton(onPressed: () => login(), child: Text("Login")),
+            ElevatedButton(onPressed: () => login(), child: Text("Login")),
 
-          ErrorMessageText(notifier: SignInErrors.errorMessage),
-        ],
+            ErrorMessageText(notifier: SignInErrors.errorMessage),
+          ],
+        ),
       ),
     );
   }

@@ -60,7 +60,7 @@ class State {
     {
       return "N/A";
     }
-    DateTime dt = dateSent!.toDate() ?? DateTime.now();
+    DateTime dt = dateSent!.toDate();
     return "${dt.day}/${dt.month}/${dt.year} - ${dt.hour}:${dt.minute}";
   }
 
@@ -69,7 +69,7 @@ class State {
     {
       return "N/A";
     }
-    DateTime dt = dateReceived!.toDate() ?? DateTime.now();
+    DateTime dt = dateReceived!.toDate();
     return "${dt.day}/${dt.month}/${dt.year} - ${dt.hour}:${dt.minute}";
   }
 }
