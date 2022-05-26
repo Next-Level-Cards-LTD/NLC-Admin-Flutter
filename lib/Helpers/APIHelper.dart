@@ -5,7 +5,7 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:next_level_admin/APIs/CardMarket/Config.dart';
 import 'package:next_level_admin/APIs/RoyalMail/Config.dart';
-import 'package:next_level_admin/Shared/Libraries/Database_Library.dart';
+import 'package:next_level_admin/Shared/FirestoreDB.dart';
 
 class APIHelper {
 
@@ -32,10 +32,10 @@ class APIHelper {
   Future getAPIData() async
   {
     if(!CardMarket_API.instance.hasData) {
-      FirebaseFirestore.instance.collection(APIConfigsCollection).doc("CardMarket").get().then((value) => CardMarket_API.setup(value));
+      FirebaseFirestore.instance.collection(FirestoreDB.instance.APIConfigsCollection).doc("CardMarket").get().then((value) => CardMarket_API.setup(value));
     }
     if(!RoyalMail_API.instance.hasData) {
-      FirebaseFirestore.instance.collection(APIConfigsCollection).doc("RoyalMail").get().then((value) => RoyalMail_API.setup(value));
+      FirebaseFirestore.instance.collection(FirestoreDB.instance.APIConfigsCollection).doc("RoyalMail").get().then((value) => RoyalMail_API.setup(value));
     }
   }
 }
