@@ -12,8 +12,13 @@ part "package:next_level_admin/Authentication/Services/Auth.dart";
 
 final String uid = FirebaseAuth.instance.currentUser!.uid;
 
-final CollectionReference userCollection = FirebaseFirestore.instance.collection("Users");
-final CollectionReference YuGiOhCardDatabase = FirebaseFirestore.instance.collection("YuGiOh Cards");
-final CollectionReference APIConfigs = FirebaseFirestore.instance.collection("API Configs");
-final CollectionReference orderCollection = FirebaseFirestore.instance.collection("Orders");
+final String userCollection = "Users";
+final String YuGiOhCardDatabase = "YuGiOh Cards";
+final String APIConfigsCollection = "API Configs";
+final String orderCollection = "Orders";
+
+//final CollectionReference userCollection = FirebaseFirestore.instance.collection("Users");
+//final CollectionReference YuGiOhCardDatabase = FirebaseFirestore.instance.collection("YuGiOh Cards");
+//final CollectionReference APIConfigs = FirebaseFirestore.instance.collection("API Configs");
+//final CollectionReference orderCollection = FirebaseFirestore.instance.collection("Orders");
 
