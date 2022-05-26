@@ -30,7 +30,7 @@ class Authentication {
 
   Future createUser(String userName, String email) async
   {
-    return await userCollection.doc(uid).set({
+    return await FirebaseFirestore.instance.collection(userCollection).doc(uid).set({
       'uid': uid,
       'username': userName,
       'email': email,
@@ -38,7 +38,7 @@ class Authentication {
   }
 
   //get User doc stream
-  Stream<User.User> get user => userCollection.doc(uid).snapshots().map(_userFromSnapshot);
+  Stream<User.User> get user => FirebaseFirestore.instance.collection(userCollection).doc(uid).snapshots().map(_userFromSnapshot);
 
   //User from snapshot
   User.User _userFromSnapshot(DocumentSnapshot snapshot) => User.User.documentSnapshot(snapshot);
