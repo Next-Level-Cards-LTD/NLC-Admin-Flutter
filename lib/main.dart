@@ -1,10 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:next_level_admin/Constants/Values/Constants_Enums.dart';
-import 'package:next_level_admin/Dashboard/OrderSystem/OrderSystem.dart';
 import 'package:next_level_admin/Dashboard/OrderSystem/Pages/OrderSystem.dart';
 import 'package:next_level_admin/Dashboard/SystemSettings/Pages/SystemSettings.dart';
-import 'package:next_level_admin/Routes.dart';
 import 'package:next_level_admin/Shared/Libraries/Database_Library.dart';
 import 'package:next_level_admin/Shared/Widgets/Widget_Loading.dart';
 import 'package:next_level_admin/Authentication/Wrappers/AuthWrapper.dart';
@@ -25,28 +23,6 @@ Future<void> main() async {
         child: MyApp(),)
   );
 }
-
-//      initialRoute: '/',
-//       onGenerateRoute: Flurorouter.router.generator,
-//       routes: {
-//         MyHomePage.route : (context) => MyHomePage(),
-//         "/${DashboardWrapper.route}" : (context) => DashboardWrapper(selectedIndex: 0),
-//         "/stock" : (context) => DashboardWrapper(selectedIndex: 1),
-//         "/resource" : (context) => DashboardWrapper(selectedIndex: 2),
-//         "/${OrderSystemPage.route}" : (context) => DashboardWrapper(selectedIndex: 3),
-//         "/${SystemSettings.route}" : (context) => DashboardWrapper(selectedIndex: 4),
-//         '/login' : (context) => AuthWrapper()
-
-//    return MaterialApp(
-//       title: 'Flutter Demo',
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData(
-//         primarySwatch: Colors.red,
-//       ),
-//       //home: MyHomePage(),
-//
-//       }
-//     );
 
 final routes = RouteMap(
   routes: {

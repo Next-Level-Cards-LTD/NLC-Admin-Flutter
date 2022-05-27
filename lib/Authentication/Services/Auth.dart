@@ -31,9 +31,9 @@ class Authentication {
   Future createUser(String userName, String email) async
   {
     return await FirebaseFirestore.instance.collection(FirestoreDB.instance.userCollection).doc(uid).set({
-      'uid': uid,
-      'username': userName,
-      'email': email,
+      FirestoreDB.instance.uid: uid,
+      FirestoreDB.instance.username: userName,
+      FirestoreDB.instance.userEmail: email,
     });
   }
 

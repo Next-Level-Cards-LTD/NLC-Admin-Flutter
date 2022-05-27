@@ -5,7 +5,7 @@ part of 'package:next_level_admin/APIs/CardMarket/CardMarket_Library.dart';
 class CardMarket {
 
 
-  Future UploadCardToDatabase(Map<String, dynamic> Data) async => FirebaseFirestore.instance.collection(FirestoreDB.instance.YuGiOhCardDatabase).doc().set(Data);
+  Future UploadCardToDatabase(Map<String, dynamic> data) async => FirebaseFirestore.instance.collection(FirestoreDB.instance.YuGiOhCardDatabase).doc().set(data);
 
 
   Stream<CardMarket_API> get CardMarketAPI => FirebaseFirestore.instance.collection(FirestoreDB.instance.APIConfigsCollection).doc("CardMarket").snapshots().map(_cardMarketAPIFromSnapshots);

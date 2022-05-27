@@ -17,5 +17,9 @@ class FirestoreDB
   final String orderCollection = "Orders";
 
 
+  //User Fields
+  final String userEmail = "email";
+  final String uid = "uid";
+  final String username = "username";
 
 }
