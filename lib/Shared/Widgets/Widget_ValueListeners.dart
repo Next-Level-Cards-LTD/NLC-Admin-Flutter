@@ -17,3 +17,10 @@ class ErrorMessageText extends StatelessWidget {
     );
   }
 }
+
+class SelectedPageIndex {
+
+  static ValueNotifier<int> selectedIndex = ValueNotifier<int>(0);
+
+  static int getSelectedIndex() => selectedIndex.value;
+}

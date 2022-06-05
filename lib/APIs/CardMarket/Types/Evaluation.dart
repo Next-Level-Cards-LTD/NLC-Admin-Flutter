@@ -16,6 +16,7 @@ class Evaluation{
     comment = evaluation.map((e) => e.findAllElements("comment").single.text).single.toString();
   }
 
+  //TODO Why is this commented out??
   Evaluation.fromSnapshot(DocumentSnapshot doc)
   {
     //evaluationGrade = doc["evaluation_grade"] ?? 0;

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:next_level_admin/APIs/RoyalMail/Config.dart';
 import 'package:next_level_admin/APIs/CardMarket/Config.dart';
-import 'package:next_level_admin/Shared/Widgets/Widget_Loading.dart';
-import 'package:provider/provider.dart';
 
 class APIConfigs extends StatefulWidget {
   const APIConfigs({Key? key}) : super(key: key);
@@ -18,13 +16,13 @@ class _GeneralState extends State<APIConfigs> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("CardMarket"),
-        Text("${CardMarket_API.instance.ConsumerKey}"),
-        Text("${CardMarket_API.instance.ConsumerKeySecret}"),
-        Text("${CardMarket_API.instance.AccessToken}"),
-        Text("${CardMarket_API.instance.TokenSecret}"),
+        Text(CardMarket_API.getConsumerKey()),
+        Text(CardMarket_API.getConsumerKeySecret()),
+        Text(CardMarket_API.getAccessToken()),
+        Text(CardMarket_API.getTokenSecret()),
         Text(""),
         Text("Royal Mail"),
-        Text("${RoyalMail_API.instance.BearerToken}")
+        Text("${RoyalMail_API.getBearerToken()}")
       ],
     );
   }

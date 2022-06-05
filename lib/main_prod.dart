@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:next_level_admin/APIs/CardMarket/CardMarket_Library.dart' as CM;
 import 'package:next_level_admin/APIs/CardMarket/Config.dart';
 import 'package:next_level_admin/Constants/Values/Constants_Enums.dart';
 import 'package:provider/provider.dart';
@@ -43,14 +42,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   int _selectedIndex = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp(name: "Next Level Cards Admin",
@@ -89,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget HomeScreen()
   {
     return StreamBuilder<CardMarket_API>(
-        stream: CM.CardMarket().CardMarketAPI,
+        stream: null, //TODO Need to fix this
         builder: (context, snapshot) {
 
           if(!snapshot.hasData)

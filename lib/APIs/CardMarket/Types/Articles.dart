@@ -4,6 +4,7 @@ class Articles {
   List<Article> articles = List.empty(growable: true);
 
 
+  // ignore: non_constant_identifier_names
   Articles.fromXml(Iterable<XmlElement> Articles) {
     Articles.forEach((element) => articles.add(Article.fromXml(element)));
   }

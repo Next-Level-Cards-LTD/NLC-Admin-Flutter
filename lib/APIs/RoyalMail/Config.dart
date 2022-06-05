@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// ignore: camel_case_types
 class RoyalMail_API {
-  static RoyalMail_API? _instance = RoyalMail_API._();
+  static RoyalMail_API? _instance = RoyalMail_API(bearerToken: "");
 
   static RoyalMail_API get instance => _instance!;
 
@@ -9,29 +10,28 @@ class RoyalMail_API {
     _instance = instance;
   }
 
-  RoyalMail_API._();
+  RoyalMail_API({required this.bearerToken});
 
-  RoyalMail_API.setup(DocumentSnapshot data)
+  String bearerToken;
+
+  static String getBearerToken() => _instance!.bearerToken;
+
+  static Future<void> getConfigData() async
   {
-    print("RM Load");
-    BearerToken = data["BearerToken"];
-    hasData = true;
-    instance = this;
+    if(!hasData())
+      {
+        print("RM Load");
+        var data = await FirebaseFirestore.instance.collection("API Configs").doc("RoyalMail").get().then((value) => RoyalMail_API.fromFirestore(value.data()!));
+        _instance = data;
+      }
   }
 
-  bool _hasData = false;
+  factory RoyalMail_API.fromFirestore(Map data) => RoyalMail_API(bearerToken: data["BearerToken"] ?? "");
 
-  bool get hasData => _hasData;
 
-  set hasData(bool hasData) {
-    _hasData = hasData;
-  }
+  Map<String, dynamic> toMap()  => {
+  "BearerToken": bearerToken
+  };
 
-  String? _BearerToken;
-
-  String? get BearerToken => _BearerToken!;
-
-  set BearerToken(String? BearerToken) {
-    _BearerToken = BearerToken;
-  }
+  static bool hasData() => getBearerToken().isNotEmpty;
 }
