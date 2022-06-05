@@ -13,7 +13,7 @@ class Authentication {
       await _auth.signInWithEmailAndPassword(
           email: email,
           password: password
-      );
+      ).then((value) => User.User.setup(value.user!.uid));
     } on Auth.FirebaseAuthException catch (e) {
       SignInErrors.show(e.code);
       if (e.code == 'user-not-found') {
@@ -28,18 +28,5 @@ class Authentication {
     _auth.signOut();
   }
 
-  Future createUser(String userName, String email) async
-  {
-    return await FirebaseFirestore.instance.collection(userCollection).doc(uid).set({
-      'uid': uid,
-      'username': userName,
-      'email': email,
-    });
-  }
-
-  //get User doc stream
-  Stream<User.User> get user => FirebaseFirestore.instance.collection(userCollection).doc(uid).snapshots().map(_userFromSnapshot);
-
-  //User from snapshot
-  User.User _userFromSnapshot(DocumentSnapshot snapshot) => User.User.documentSnapshot(snapshot);
+  Future createUser(User.User user) async => await FirebaseFirestore.instance.collection(userCollection).doc(uid).set(user.toMap());
 }

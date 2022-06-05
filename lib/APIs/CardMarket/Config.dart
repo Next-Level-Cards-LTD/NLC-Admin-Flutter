@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// ignore: camel_case_types
 class CardMarket_API {
-  static CardMarket_API? _instance = CardMarket_API._();
+  static CardMarket_API? _instance = CardMarket_API(consumerKey: "", consumerKeySecret: "", accessToken: "", tokenSecret:"");
 
   static CardMarket_API get instance => _instance!;
 
@@ -9,56 +10,47 @@ class CardMarket_API {
     _instance = instance;
   }
 
-  CardMarket_API._();
+  CardMarket_API({required this.tokenSecret, required this.accessToken, required this.consumerKey, required this.consumerKeySecret});
 
-  CardMarket_API.setup(DocumentSnapshot data)
+
+  factory CardMarket_API.fromFirestore(Map data) => CardMarket_API(
+        consumerKey: data["ConsumerKey"] ?? "t",
+        consumerKeySecret: data["ConsumerKeySecret"] ?? "",
+        accessToken: data["AccessToken"] ?? "",
+        tokenSecret: data["TokenSecret"] ?? "");
+
+
+  Map<String, dynamic> toMap()  => {
+    "ConsumerKey" : consumerKey,
+    "ConsumerKeySecret" : consumerKeySecret,
+    "AccessToken": accessToken,
+    "TokenSecret": tokenSecret,
+  };
+
+  String tokenSecret;
+  String accessToken;
+  String consumerKeySecret;
+  String consumerKey;
+
+
+  static String getTokenSecret() => _instance!.tokenSecret;
+
+  static String getAccessToken() => _instance!.accessToken;
+
+  static String getConsumerKey() => _instance!.consumerKey;
+
+  static String getConsumerKeySecret() => _instance!.consumerKeySecret;
+
+  static bool hasData() => getTokenSecret().isNotEmpty && getAccessToken().isNotEmpty && getConsumerKey().isNotEmpty && getConsumerKeySecret().isNotEmpty;
+
+
+  static Future<void> getConfigData() async
   {
-    print("CM Load");
-    ConsumerKey = data["ConsumerKey"];
-    ConsumerKeySecret= data["ConsumerKeySecret"];
-    AccessToken = data["AccessToken"];
-    TokenSecret = data["TokenSecret"];
-    hasData = true;
-    instance = this;
-  }
-
-  bool _hasData = false;
-
-  bool get hasData => _hasData;
-
-  set hasData(bool hasData) {
-    _hasData = hasData;
-  }
-
-  String? _ConsumerKey;
-
-  String? get ConsumerKey => _ConsumerKey!;
-
-  set ConsumerKey(String? ConsumerKey) {
-    _ConsumerKey = ConsumerKey;
-  }
-
-  String? _ConsumerKeySecret;
-
-  String? get ConsumerKeySecret => _ConsumerKeySecret;
-
-  set ConsumerKeySecret(String? ConsumerKeySecret) {
-    _ConsumerKeySecret = ConsumerKeySecret;
-  }
-
-  String? _AccessToken;
-
-  String? get AccessToken => _AccessToken;
-
-  set AccessToken(String? AccessToken) {
-    _AccessToken = AccessToken;
-  }
-
-  String? _TokenSecret;
-
-  String? get TokenSecret => _TokenSecret;
-
-  set TokenSecret(String? TokenSecret) {
-    _TokenSecret = TokenSecret;
+    if(!hasData())
+      {
+        print("CM Load");
+        var data = await FirebaseFirestore.instance.collection("API Configs").doc("CardMarket").get().then((value) => CardMarket_API.fromFirestore(value.data()!));
+        _instance = data;
+      }
   }
 }

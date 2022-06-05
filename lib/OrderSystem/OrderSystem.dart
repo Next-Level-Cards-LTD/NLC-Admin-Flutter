@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:next_level_admin/APIs/CardMarket/CardMarket_Library.dart' as CM;
 import 'package:next_level_admin/APIs/CardMarket/Types/OrderListener.dart';
 import 'package:next_level_admin/Shared/Libraries/Database_Library.dart';
+import '../../Authentication/Types/User.dart';
 import 'Types/OrderTileType.dart';
 
 class OrderSystem{
 
-  Future UploadOrder(String docName, Map<String, dynamic> data, CM.Articles articles) async {
+  Future uploadOrder(String docName, Map<String, dynamic> data, CM.Articles articles) async {
     DocumentSnapshot doc = await FirebaseFirestore.instance.collection(orderCollection).doc(docName).get();
     if(doc.exists)
     {
-      print("Update");
+      print("Update Order");
       data["updated_on"] = DateTime.now();
-      data["updated_by"] = "Ricky"; //Need to change this to get logged in username
+      data["updated_by"] = User.instance.username;
       return await FirebaseFirestore.instance.collection(orderCollection).doc(docName).update(data).then((value) =>
       {
         //Update shouldn't need to update the articles
@@ -24,9 +24,11 @@ class OrderSystem{
     }
     else
     {
-      print("Create");
+      print("Create Order");
       data["created_on"] = DateTime.now();
-      data["created_by"] = "Ricky"; //Need to change this to get logged in username
+      data["created_by"] = User.getUsername();
+      data["updated_on"] = DateTime.now();
+      data["updated_by"] = User.getUsername();
       return await FirebaseFirestore.instance.collection(orderCollection).doc(docName).set(data).then((value) =>
       {
         articles.articles.forEach((element) {
@@ -56,8 +58,5 @@ class OrderSystem{
   Stream<CM.Order> get order => FirebaseFirestore.instance.collection(orderCollection).doc("CM-${OrderListener.activeOrderUID.value}").snapshots().map(_getOrderFromSnapshot);
 
 
-  CM.Order _getOrderFromSnapshot(DocumentSnapshot snapshot)
-  {
-    return CM.Order.FromSnapshot(snapshot);
-  }
+  CM.Order _getOrderFromSnapshot(DocumentSnapshot snapshot) => CM.Order.FromSnapshot(snapshot);
 }

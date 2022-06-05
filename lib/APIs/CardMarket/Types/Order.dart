@@ -4,7 +4,7 @@ class Order {
 
   String source = "Card Market";
 
-  int ID = 0;
+  int id = 0;
 
   String trackingNumber = "";
   bool isPresale = false;
@@ -23,7 +23,7 @@ class Order {
 
   Order.FromSnapshot(DocumentSnapshot doc)
   {
-    ID = doc["orderID"];
+    id = doc["orderID"];
     source = doc["source"];
     trackingNumber = doc["tracking_number"];
     isPresale = doc["is_presale"];
@@ -41,7 +41,7 @@ class Order {
   }
 
   Order(XmlDocument doc){
-    ID = int.parse(doc.findAllElements('idOrder').single.text);
+    id = int.parse(doc.findAllElements('idOrder').single.text);
 
     buyer = User.fromXml(doc.findAllElements('buyer'));
     address = Address.fromXML(doc.findAllElements('shippingAddress'));
@@ -64,7 +64,7 @@ class Order {
   }
 
   Order.fromXmlElement(XmlElement doc) {
-    ID = int.parse(doc.findAllElements('idOrder').single.text);
+    id = int.parse(doc.findAllElements('idOrder').single.text);
 
     buyer = User.fromXml(doc.findAllElements('buyer'));
     address = Address.fromXML(doc.findAllElements('shippingAddress'));
@@ -90,7 +90,7 @@ class Order {
     Map<String, dynamic> orderData = new Map();
 
     orderData["source"] = source;
-    orderData["orderID"] = ID;
+    orderData["orderID"] = id;
 
     orderData.addAll(buyer.toMap());
     orderData.addAll(address.toMap());

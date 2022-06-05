@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //Brand Colours
-const mainColor = Color.fromRGBO(0, 0, 0, 1);
+const mainColor = Color.fromRGBO(255, 0, 0, 1);
 const secondaryColor = Color.fromRGBO(0, 102, 102, 1);
 const tertiaryColor = Color.fromRGBO(255, 255, 255, 1);
 

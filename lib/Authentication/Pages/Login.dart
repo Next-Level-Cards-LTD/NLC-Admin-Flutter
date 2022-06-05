@@ -22,10 +22,10 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
 
-    Authentication().signInEmailAndPassword(email, password);
+    //Authentication().signInEmailAndPassword(email, password);
 
-    return Material(
-      child: Center(
+    return Scaffold(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -66,6 +66,7 @@ class _LoginState extends State<Login> {
   void login()
   {
     final formState = formKey.currentState;
+    print("Login");
     if(formState!.validate())
     {
       //formState.save();

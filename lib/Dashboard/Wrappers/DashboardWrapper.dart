@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:next_level_admin/Authentication/Types/User.dart';
-import 'package:next_level_admin/Constants/Values/Constants_Enums.dart';
-import 'package:next_level_admin/Dashboard/OrderSystem/Pages/OrderSystem.dart';
-import 'package:next_level_admin/Dashboard/SystemSettings/Pages/SystemSettings.dart';
-import 'package:next_level_admin/Helpers/APIHelper.dart';
-import 'package:next_level_admin/Shared/Libraries/Database_Library.dart';
-import 'package:next_level_admin/Shared/Widgets/Widget_Loading.dart';
-import 'package:routemaster/routemaster.dart';
+import 'package:next_level_admin/APIs/CardMarket/Config.dart';
+import 'package:next_level_admin/APIs/RoyalMail/Config.dart';
 
+// ignore: must_be_immutable
 class DashboardWrapper extends StatefulWidget {
 
   static const String route = "dashboard";
 
   int selectedIndex = 0;
-  Map<String, dynamic>? params;
   int? id;
 
   DashboardWrapper({required this.selectedIndex, this.id});
@@ -24,29 +18,19 @@ class DashboardWrapper extends StatefulWidget {
 
 class _DashboardWrapperState extends State<DashboardWrapper> {
 
-  int _selectedIndex = 3;
+  int _selectedIndex = 0;
   bool isSideBarExtended = false;
 
 
   @override
-  void initState() {
+  initState() {
+    super.initState();
     _selectedIndex = widget.selectedIndex;
+    loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User>(
-        stream: Authentication().user,
-        builder: (context, snapshot) {
-
-
-
-          if(!snapshot.hasData)
-          {
-            return Loading(text: 'Loading Profile...');
-          }
-
-          LoadData();
 
           return Scaffold(
             body: Row(
@@ -54,9 +38,6 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
                 NavigationRail(selectedIndex: _selectedIndex,
                   onDestinationSelected: (int index) {
                     setState(() {
-                      _selectedIndex = index;
-                      SetActiveWidget(DashboardPage.values[_selectedIndex]);
-                      Routemaster.of(context).replace("/${getNavigationRoute(DashboardPage.values[_selectedIndex])}");
                     });
                   },
                   labelType: NavigationRailLabelType.none,
@@ -88,68 +69,22 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
                     ),
                   ],
                   extended: isSideBarExtended,
-                  trailing: Align(alignment: isSideBarExtended ? Alignment.bottomRight : Alignment.bottomCenter, child: IconButton(onPressed: () => ToggleSideBar(), icon: Icon(isSideBarExtended ? Icons.arrow_back_ios : Icons.arrow_forward_ios))),
-                  //minExtendedWidth: 10,
+                  trailing: Align(alignment: isSideBarExtended ? Alignment.bottomRight : Alignment.bottomCenter, child: IconButton(onPressed: () => toggleSideBar(), icon: Icon(isSideBarExtended ? Icons.arrow_back_ios : Icons.arrow_forward_ios))),
                 ),
-                SetActiveWidget(DashboardPage.values[_selectedIndex])
-                //Navigator.of(context).pushNamed("/Dashboard")
               ],
             ),
           );
-        }
-    );
   }
 
-  void ToggleSideBar() {
+  void toggleSideBar() {
     setState(() {
       isSideBarExtended = !isSideBarExtended;
     });
   }
 
-  Widget SetActiveWidget(DashboardPage dp)
-  {
-    print(widget.params);
-    switch(dp)
-    {
-      case DashboardPage.Dashboard: //Dashboard
-        return Text("Dashboard");
-      case DashboardPage.Stock: //Stock Management
-        return Text("Stock");
-      case DashboardPage.Resource: //Stock Management
-        return Text("Resource");
-      case DashboardPage.Order: //Order Management
-        return OrderSystemPage(orderID: widget.id,);
-      case DashboardPage.Settings: //System Settings
-        return SystemSettings();
-      default:
-        return Row();
-    }
-  }
 
-  String getNavigationRoute(DashboardPage dp)
-  {
-
-    //print(widget.params?["orderID"].toString());
-    //String orderId = widget.params?["orderID"];
-    switch(dp)
-    {
-      case DashboardPage.Dashboard: //Dashboard
-        return "dashboard";
-      case DashboardPage.Stock: //Stock Management
-        return "stock";
-      case DashboardPage.Resource: //Stock Management
-        return "resource";
-      case DashboardPage.Order: //Order Management
-        return "orders";
-      case DashboardPage.Settings: //System Settings
-        return SystemSettings.route;
-      default:
-        return "dashboard";
-    }
-  }
-
-  void LoadData()
-  {
-    APIHelper().getAPIData();
+  Future<void> loadData() async {
+    CardMarket_API.getConfigData();
+    RoyalMail_API.getConfigData();
   }
 }

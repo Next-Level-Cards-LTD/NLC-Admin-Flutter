@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:next_level_admin/APIs/CardMarket/Types/OrderListener.dart';
 import 'package:next_level_admin/APIs/CardMarket/CardMarket_Library.dart' as CM;
-import 'package:next_level_admin/Dashboard/OrderSystem/OrderSystem.dart';
+import 'package:next_level_admin/OrderSystem/OrderSystem.dart';
 import 'package:next_level_admin/Shared/Widgets/Widget_Loading.dart';
 
 
+// ignore: must_be_immutable
 class OrderDisplay extends StatefulWidget {
 
   String orderID;
@@ -22,13 +23,12 @@ class _OrderDisplayState extends State<OrderDisplay> {
       stream: OrderSystem().order,
       builder: (context, snapshot) {
 
-            print(snapshot.data?.ID);
-            CM.Order? id = snapshot.data;
+            CM.Order? order = snapshot.data ?? null;
 
             return Container(child: Column(
               children: [
                 ElevatedButton(onPressed: () => OrderListener.clearActiveOrderUID(), child: Text("Back")),
-                snapshot.hasData ? displayOrderInformation(id) : Loading(text: "Getting Order"),
+                snapshot.hasData ? displayOrderInformation(order) : Loading(text: "Getting Order"),
               ],
             ));
           }
@@ -40,7 +40,7 @@ class _OrderDisplayState extends State<OrderDisplay> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Order ID: ${order?.ID ?? "-1"}"),
+        Text("Order ID: ${order?.id ?? "-1"}"),
         Text("Source: ${order?.source ?? "None"}"),
         Text("Tracking Number: ${order?.trackingNumber ?? ""}"),
         Text("Is Presale?: ${order?.isPresale ?? "false"}"),
@@ -82,11 +82,11 @@ class _OrderDisplayState extends State<OrderDisplay> {
         //Very hacky need to change to some form of line break
         Text(""),
         Text("Shipping Method", textScaleFactor: 1.5,),
-        Text("Shipping ID: ${order?.shippingMethod.ShippingID ?? "-1"}"),
-        Text("Method Name: ${order?.shippingMethod.MethodName ?? ""}"),
-        Text("Shipping Price: ${order?.shippingMethod.ShippingPrice ?? ""}"),
+        Text("Shipping ID: ${order?.shippingMethod.shippingID ?? "-1"}"),
+        Text("Method Name: ${order?.shippingMethod.methodName ?? ""}"),
+        Text("Shipping Price: ${order?.shippingMethod.shippingPrice ?? ""}"),
         Text("Currency ID: ${order?.shippingMethod.currencyID ?? "-1"}"),
-        Text("Currency Code: ${order?.shippingMethod.CurrencyCode ?? "-1"}"),
+        Text("Currency Code: ${order?.shippingMethod.currencyCode ?? "-1"}"),
         Text("Is Letter: ${order?.shippingMethod.isLetter ?? "false"}"),
         Text("Is Insured: ${order?.shippingMethod.isInsured ?? "false"}"),
         //Very hacky need to change to some form of line break

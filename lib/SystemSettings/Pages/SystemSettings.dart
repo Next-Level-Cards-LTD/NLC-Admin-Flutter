@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:next_level_admin/Dashboard/SystemSettings/Wrappers/SystemSettingsWrapper.dart';
+import 'package:next_level_admin/Shared/Widgets/PageTemplate.dart';
+import 'package:next_level_admin/SystemSettings/Wrappers/SystemSettingsWrapper.dart';
 
 class SystemSettings extends StatefulWidget {
   const SystemSettings({Key? key}) : super(key: key);
-
-  static const String route = "systemsettings";
 
   @override
   _SystemSettingsState createState() => _SystemSettingsState();
@@ -17,7 +15,7 @@ class _SystemSettingsState extends State<SystemSettings> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return PageTemplate(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
